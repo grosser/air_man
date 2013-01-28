@@ -1,3 +1,7 @@
+task :default do
+  sh "rspec spec"
+end
+
 task :test_email do
   require "yaml"
   $LOAD_PATH << "lib"

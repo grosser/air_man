@@ -4,6 +4,7 @@ require "dalli"
 module AirMan
   class Reporter
     MIN_FREQUENCY = 100
+    TTL = 2 * 7 * 24 * 60 * 60 # 2 weeks
     attr_reader :config
 
     def initialize(config)
@@ -27,7 +28,7 @@ module AirMan
     private
 
     def store
-      @store ||= (config[:store] || Dalli::Client.new)
+      @store ||= (config[:store] || Dalli::Client.new(:expires_in => TTL))
     end
 
     def data
