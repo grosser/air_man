@@ -1,0 +1,14 @@
+development: &default
+  :subdomain: yourcompany
+  :auth_token: 123123132132132
+  :emails:
+    - foo@gmail.com
+  :mailer:
+    :username: bar@gmail.com
+    :password: asdadsd
+
+test:
+  <<: *default
+
+production:
+  <<: *default

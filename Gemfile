@@ -5,3 +5,4 @@ gem "dalli"
 
 gem "rake"
 gem "rspec"
+gem "heroku"

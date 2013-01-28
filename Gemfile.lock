@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.3.2)
     airbrake-api (4.2.2)
       faraday_middleware (~> 0.8)
       hashie
@@ -11,16 +12,31 @@ GEM
       airbrake-api (>= 4.2.2)
     dalli (2.6.0)
     diff-lcs (1.1.3)
+    excon (0.16.10)
     faraday (0.8.4)
       multipart-post (~> 1.1)
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
     hashie (1.2.0)
+    heroku (2.34.0)
+      heroku-api (~> 0.3.7)
+      launchy (>= 0.3.2)
+      netrc (~> 0.7.7)
+      rest-client (~> 1.6.1)
+      rubyzip
+    heroku-api (0.3.7)
+      excon (~> 0.16.10)
+    launchy (2.1.2)
+      addressable (~> 2.3)
     mash (0.1.1)
+    mime-types (1.19)
     multi_xml (0.5.2)
     multipart-post (1.1.5)
+    netrc (0.7.7)
     parallel (0.5.21)
     rake (10.0.3)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -29,6 +45,7 @@ GEM
     rspec-expectations (2.12.1)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.12.1)
+    rubyzip (0.9.9)
 
 PLATFORMS
   ruby
@@ -36,5 +53,6 @@ PLATFORMS
 DEPENDENCIES
   airbrake_tools
   dalli
+  heroku
   rake
   rspec
