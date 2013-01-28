@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "yaml"
+
+$LOAD_PATH << "lib"
+require "air_man"
+
+AirMan.new(YAML.load_file("config/config.yml")["development"]).report
