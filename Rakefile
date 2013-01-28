@@ -4,8 +4,14 @@ require "base64"
 $LOAD_PATH << "lib"
 require "air_man"
 
+desc "run tests"
 task :default do
   sh "rspec spec"
+end
+
+desc "report"
+task :report do
+  AirMan::Reporter.new(AirMan.config)
 end
 
 namespace :test do
@@ -27,5 +33,6 @@ namespace :heroku do
   task :configure do
     config = Base64.encode64(File.read("config/config.yml")).gsub("\n","")
     sh "heroku config:add CONFIG_YML=#{config}"
+    sh "heroku config:add RAILS_ENV=production"
   end
 end

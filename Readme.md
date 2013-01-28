@@ -1,7 +1,7 @@
-Randomly assign a person to a high-frequency airbrake error.
+Randomly assign a person to a high-frequency airbrake error, so shit gets fixed.
 
 ```
-bundle exec ruby ./bin/air_man
+bundle exec rake report
 ```
 
 Heroku
@@ -16,7 +16,7 @@ git push heroku
 heroku run rake test:email test:store
 
 # send once by hand to verify it works
-heroku run bundle exec ruby ./bin/air_man
+heroku run bundle exec rake report
 ```
 
 ### configure scheduler
@@ -24,4 +24,4 @@ heroku run bundle exec ruby ./bin/air_man
 heroku addons:open scheduler
 ```
 
-add `heroku run bundle exec ruby ./bin/air_man` hourly
+add `bundle exec rake report` hourly
