@@ -9,15 +9,17 @@ task :default do
 end
 
 namespace :test do
+  desc "test email sending"
   task :email do
     m = AirMan::Mailer.new(AirMan.config)
-    m.send :send_email, ENV.fetch("TO"), :subject => "test", :body => "test test"
+    m.send :send_email, (ENV["TO"] || "test@example.com"), :subject => "test", :body => "test test"
   end
 
+  desc "test the memcache store"
   task :store do
     store = AirMan::Reporter.new(AirMan.config).send(:store)
-    store.set "xxx", "SUCCESS"
-    puts store.get "xxx"
+    store.set "xxx", :SUCCESS
+    raise unless store.get("xxx") == :SUCCESS
   end
 end
 

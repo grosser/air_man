@@ -16,7 +16,7 @@ module AirMan
         next if frequency < 100
 
         store_key = "air_man.errors.#{error.id}"
-        next if old = store.get(store_key)
+        next if store.get(store_key)
 
         assignee = config.fetch(:emails).sample
         puts "Assigning #{error.id} to #{assignee}"
@@ -28,7 +28,7 @@ module AirMan
     private
 
     def store
-      @store ||= (config[:store] || Dalli::Client.new(:expires_in => TTL))
+      @store ||= (config[:store] || Dalli::Client.new(nil, :expires_in => TTL))
     end
 
     def data
