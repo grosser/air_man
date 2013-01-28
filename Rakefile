@@ -11,7 +11,7 @@ end
 
 desc "report"
 task :report do
-  AirMan::Reporter.new(AirMan.config)
+  AirMan::Reporter.new(AirMan.config).report
 end
 
 namespace :test do
