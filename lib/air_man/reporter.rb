@@ -28,7 +28,16 @@ module AirMan
     private
 
     def store
-      @store ||= (config[:store] || Dalli::Client.new(nil, :expires_in => TTL))
+      @store ||= begin
+        support_memcachier
+        (config[:store] || Dalli::Client.new(nil, :expires_in => TTL))
+      end
+    end
+
+    def support_memcachier
+      ENV["MEMCACHE_SERVERS"] = ENV["MEMCACHIER_SERVERS"] if ENV["MEMCACHIER_SERVERS"]
+      ENV["MEMCACHE_USERNAME"] = ENV["MEMCACHIER_USERNAME"] if ENV["MEMCACHIER_USERNAME"]
+      ENV["MEMCACHE_PASSWORD"] = ENV["MEMCACHIER_PASSWORD"] if ENV["MEMCACHIER_PASSWORD"]
     end
 
     def data
