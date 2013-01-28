@@ -1,15 +1,24 @@
+require "yaml"
 require "base64"
+
+$LOAD_PATH << "lib"
+require "air_man"
 
 task :default do
   sh "rspec spec"
 end
 
-task :test_email do
-  require "yaml"
-  $LOAD_PATH << "lib"
-  require "air_man"
-  m = AirMan::Mailer.new(YAML.load_file("config/config.yml")["development"])
-  m.send :send_email, ENV.fetch("TO"), :subject => "test", :body => "test test"
+namespace :test do
+  task :email do
+    m = AirMan::Mailer.new(AirMan.config)
+    m.send :send_email, ENV.fetch("TO"), :subject => "test", :body => "test test"
+  end
+
+  task :store do
+    store = AirMan::Reporter.new(AirMan.config).send(:store)
+    store.set "xxx", "SUCCESS"
+    puts store.get "xxx"
+  end
 end
 
 namespace :heroku do

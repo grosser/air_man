@@ -12,3 +12,10 @@ heroku create xxx
 rake heroku:configure
 git push heroku
 ```
+
+### configure scheduler
+```
+heroku addons:open scheduler
+```
+
+add `./bin/air_man` hourly

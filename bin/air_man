@@ -5,13 +5,4 @@ require "yaml"
 $LOAD_PATH << "lib"
 require "air_man"
 
-env = (ENV['RAILS_ENV'] || 'development')
-config = if encoded = ENV['CONFIG_YML']
-  require 'base64'
-  Base64.decode64(encoded)
-else
-  File.read('config/config.yml')
-end
-config = YAML.load(config)[env].freeze
-
-AirMan.new(config).report
+AirMan::Reporter.new(AirMan.config)
