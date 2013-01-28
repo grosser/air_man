@@ -3,7 +3,6 @@ require "dalli"
 
 module AirMan
   class Reporter
-    MIN_FREQUENCY = 100
     TTL = 2 * 7 * 24 * 60 * 60 # 2 weeks
     attr_reader :config
 
@@ -13,7 +12,7 @@ module AirMan
 
     def report
       data.each do |error, notices, frequency|
-        next if frequency < 100
+        next if frequency < config.fetch(:frequency)
 
         store_key = "air_man.errors.#{error.id}"
         next if store.get(store_key)

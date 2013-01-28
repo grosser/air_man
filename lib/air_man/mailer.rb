@@ -19,11 +19,11 @@ module AirMan
     def send_email(to, opts={})
       email = config.fetch(:mailer)
       message = <<-MESSAGE.gsub(/^\s+/, "")
-          From: #{email.fetch(:from_alias, "AirMan")} <#{email.fetch(:username)}>
-          To: <#{to}>
-          Subject: #{opts.fetch(:subject)}
+        From: #{email.fetch(:from_alias, "AirMan")} <#{email.fetch(:username)}>
+        To: <#{to}>
+        Subject: #{opts.fetch(:subject)}
 
-      #{opts.fetch(:body)}
+        #{opts.fetch(:body)}
       MESSAGE
 
       smtp = Net::SMTP.new "smtp.gmail.com", 587

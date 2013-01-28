@@ -1,11 +1,12 @@
 development: &default
-  :subdomain: yourcompany
-  :auth_token: 123123132132132
-  :emails:
-    - foo@gmail.com
-  :mailer:
-    :username: bar@gmail.com
-    :password: asdadsd
+  :frequency: 100 # notify if errors/hour is greater than this
+  :subdomain: your-company # airbrake subdomain
+  :auth_token: muahahahaha # airbrake auth token from user page (NOT API KEY!)
+  :emails: # emails to send to
+    - foo@yourcompany.com
+  :mailer: # mailer config aka your gmail credentials
+    :username: airman-notifier@yourcompany.com
+    :password: your-password
 
 test:
   <<: *default
