@@ -10,20 +10,20 @@ module AirMan
 
     def notify(email, error, notices, frequency)
       subject = "AirMan: #{frequency}/hour #{error.error_class} -- #{error.error_message} first: #{error.created_at}"
-      body = "https://#{config[:subdomain]}.airbrake.io/groups/#{error.id}"
+      body = "Details at\nhttps://#{config[:subdomain]}.airbrake.io/groups/#{error.id}" # FYI: single line bodies with urls are ignored by gmail
       send_email(email, :subject => subject, :body => body)
     end
 
     private
 
-    def send_email(to, opts={})
+    def send_email(to, options={})
       email = config.fetch(:mailer)
       message = <<-MESSAGE.gsub(/^\s+/, "")
         From: #{email.fetch(:from_alias, "AirMan")} <#{email.fetch(:username)}>
         To: <#{to}>
-        Subject: #{opts.fetch(:subject)}
+        Subject: #{options.fetch(:subject)}
 
-        #{opts.fetch(:body)}
+        #{options.fetch(:body)}
       MESSAGE
 
       smtp = Net::SMTP.new "smtp.gmail.com", 587

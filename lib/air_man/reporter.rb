@@ -15,9 +15,12 @@ module AirMan
         next if frequency < config.fetch(:frequency)
 
         store_key = "air_man.errors.#{error.id}"
-        next if store.get(store_key)
+        if store.get(store_key)
+          puts "#{error.id} already assigned"
+          next
+        end
 
-        assignee = config.fetch(:emails).sample
+        assignee = random_assignee
         puts "Assigning #{error.id} to #{assignee}"
         Mailer.new(config).notify(assignee, error, notices, frequency)
         store.set(store_key, :assignee => assignee, :time => Time.now)
@@ -25,6 +28,10 @@ module AirMan
     end
 
     private
+
+    def random_assignee
+      config.fetch(:emails).sample
+    end
 
     def store
       @store ||= begin
