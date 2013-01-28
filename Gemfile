@@ -1,7 +1,7 @@
 source :rubygems
 
 gem "airbrake_tools"
-gem "activerecord"
+gem "dalli"
 
 gem "rake"
 gem "rspec"
