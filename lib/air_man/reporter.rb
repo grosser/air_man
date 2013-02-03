@@ -11,19 +11,21 @@ module AirMan
     end
 
     def report
-      data.each do |error, notices, frequency|
-        next if frequency < config.fetch(:frequency)
+      Mailer.new(config).session do |mailer|
+        data.each do |error, notices, frequency|
+          next if frequency < config.fetch(:frequency)
 
-        store_key = "air_man.errors.#{error.id}"
-        if store.get(store_key)
-          puts "#{error.id} already assigned"
-          next
+          store_key = "air_man.errors.#{error.id}"
+          if store.get(store_key)
+            puts "#{error.id} already assigned"
+            next
+          end
+
+          assignee = random_assignee
+          puts "Assigning #{error.id} to #{assignee}"
+          mailer.notify(assignee, error, notices, frequency)
+          store.set(store_key, :assignee => assignee, :time => Time.now)
         end
-
-        assignee = random_assignee
-        puts "Assigning #{error.id} to #{assignee}"
-        Mailer.new(config).notify(assignee, error, notices, frequency)
-        store.set(store_key, :assignee => assignee, :time => Time.now)
       end
     end
 
