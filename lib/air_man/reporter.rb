@@ -1,5 +1,6 @@
 require "airbrake_tools"
 require "dalli"
+require "stringio"
 
 module AirMan
   class Reporter
@@ -12,7 +13,7 @@ module AirMan
 
     def report
       Mailer.new(config).session do |mailer|
-        data.each do |error, notices, frequency|
+        hot_errors.each do |error, notices, frequency|
           next if frequency < config.fetch(:frequency)
 
           store_key = "air_man.errors.#{error.id}"
@@ -23,13 +24,25 @@ module AirMan
 
           assignee = random_assignee
           puts "Assigning #{error.id} to #{assignee}"
-          mailer.notify(assignee, error, notices, frequency)
+          mailer.notify(assignee, error, frequency, summary(error.id))
           store.set(store_key, :assignee => assignee, :time => Time.now)
         end
       end
     end
 
     private
+
+    def summary(id)
+      record_stdout{ AirbrakeTools.summary(id, {}) }
+    end
+
+    def record_stdout
+      $stdout, old = StringIO.new, $stdout
+      yield
+      $stdout.string
+    ensure
+      $stdout = old
+    end
 
     def random_assignee
       config.fetch(:emails).sample
@@ -48,11 +61,11 @@ module AirMan
       ENV["MEMCACHE_PASSWORD"] = ENV["MEMCACHIER_PASSWORD"] if ENV["MEMCACHIER_PASSWORD"]
     end
 
-    def data
+    def hot_errors
       AirbrakeAPI.account = config.fetch(:subdomain)
       AirbrakeAPI.auth_token = config.fetch(:auth_token)
       AirbrakeAPI.secure = true
-      AirbrakeTools.send(:hot, :env => "production", :pages => 1)
+      AirbrakeTools.hot(:env => "production", :pages => 1)
     end
   end
 end

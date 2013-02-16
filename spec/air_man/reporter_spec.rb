@@ -17,6 +17,7 @@ describe AirMan::Reporter do
 
     before do
       AirbrakeTools.should_receive(:hot).and_return hot_response
+      AirbrakeTools.stub(:summary).with{ puts "SUMMARY"; true }
       AirMan::Reporter.any_instance.stub(:puts)
       AirMan::Mailer # load Net::SMTP
       Net::SMTP.any_instance.stub(:do_start) # do not start sessions
