@@ -17,20 +17,22 @@ module AirMan
       stop_smtp
     end
 
-    def notify(email, error, frequency, summary)
+    def notify(email, ccs, error, frequency, summary)
       subject = "AirMan: #{frequency}/hour #{error.error_class} -- #{error.error_message} first: #{error.created_at}"
       # FYI: if the first line is a url the email is blank in gmail
       body = "Details at\nhttps://#{config[:subdomain]}.airbrake.io/groups/#{error.id}\n\n#{summary}"
-      send_email(email, :subject => subject, :body => body)
+      send_email(email, :ccs => ccs, :subject => subject, :body => body)
     end
 
     private
 
     def send_email(to, options={})
+      cc = (options[:ccs] ? "CC: #{options[:ccs].join(", ")}" : "")
       message = <<-MESSAGE.gsub(/^\s+/, "")
         From: #{smtp_config.fetch(:from_alias, "AirMan")} <#{smtp_config.fetch(:username)}>
         To: <#{to}>
         Subject: #{options.fetch(:subject)}
+        #{cc}
 
         #{options.fetch(:body)}
       MESSAGE

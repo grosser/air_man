@@ -29,6 +29,12 @@ describe AirMan::Reporter do
       report
     end
 
+    it "sends out emails to cc's for new errors" do
+      config[:ccs] = ["xxx@yyy.com"]
+      AirMan::Mailer.any_instance.should_receive(:send_email).with(config[:emails].first, hash_including(:ccs => ["xxx@yyy.com"]))
+      report
+    end
+
     it "does not send out emails for old errors" do
       AirMan::Mailer.any_instance.should_not_receive(:send_email)
       store.set "air_man.errors.#{error.id}", {}

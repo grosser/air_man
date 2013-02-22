@@ -1,4 +1,8 @@
-Randomly assign a person to a high-frequency airbrake error, so shit gets fixed.
+Randomly assign a person to any new high-frequency airbrake error, so shit gets fixed.
+ - reports by error_id
+ - reposts error after configurable duration
+ - ccs other interested parties
+ - sends error summary (details + aggragated backtraces from last 100 notices)
 
 ```
 bundle exec rake report

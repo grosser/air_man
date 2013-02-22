@@ -2,8 +2,10 @@ development: &default
   :frequency: 100 # notify if errors/hour is greater than this
   :subdomain: your-company # airbrake subdomain
   :auth_token: muahahahaha # airbrake auth token from user page (NOT API KEY!)
-  :emails: # emails to send to
+  :emails: # emails to assign errors to
     - foo@yourcompany.com
+  :ccs: # emails to send as cc
+    - stalker@yourcompany.com
   :mailer: # mailer config aka your gmail credentials
     :username: airman-notifier@yourcompany.com
     :password: your-password

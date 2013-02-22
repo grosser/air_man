@@ -24,7 +24,7 @@ module AirMan
 
           assignee = random_assignee
           puts "Assigning #{error.id} to #{assignee}"
-          mailer.notify(assignee, error, frequency, summary(error.id))
+          mailer.notify(assignee, config[:ccs], error, frequency, summary(error.id))
           store.set(store_key, :assignee => assignee, :time => Time.now)
         end
       end
