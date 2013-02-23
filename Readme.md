@@ -1,7 +1,6 @@
-Randomly assign a person to any new high-frequency airbrake error, so shit gets fixed.
- - reports by error_id
- - reposts error after configurable duration
- - ccs other interested parties
+Email notifications for high-frequency Airbrake errors
+ - sends email to 1 assignee and all ccs
+ - reposts same error only after configured duration
  - sends error summary (details + aggragated backtraces from last 100 notices)
 
 ```
