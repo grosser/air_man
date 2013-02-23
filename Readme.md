@@ -10,6 +10,26 @@ cp config{.example,}.yml
 bundle exec rake report
 ```
 
+Mail
+====
+```
+Subject: AirMan: 270.05/hour Faraday::Error::ClientError Invalid certificate
+
+Details at
+https://company.airbrake.io/groups/12313123
+last retrieved notice: 7 hours ago at 2013-02-15 22:24:58 UTC
+last 2 hours:  ▁▁▂▁▂▁▂▁▁▁▁▂▆█▂▂▂▁▁▁▁▂▁▂▁▂▄▄▄▂▂▂▄▄▁▁▂▁▂▁▁▁▆▁▂▁▁▂▁▁▁▂▄▁▁▁▁▁▁▁
+last day:      ▇▄█▄▅▃█▁
+
+Trace 1: occurred 123 times e.g. 213131, 234242343, 345345354, 34243, 3242423
+Faraday::Error::ClientError Host not found
+... backtrace ...
+
+Trace 2: occurred 16 times e.g. 1231231, 2332323, 234243, 324234
+Faraday::Error::ClientError Invalid certificate
+... different backtrace ...
+```
+
 Heroku
 ======
 setup production section in config.yml
