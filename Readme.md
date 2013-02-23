@@ -1,15 +1,18 @@
 Email notifications for high-frequency Airbrake errors
- - sends email to 1 assignee and all ccs
+ - sends email to assignee (should fix it or blame other developer) and all ccs
  - reposts same error only after configured duration
  - sends error summary (details + aggragated backtraces from last 100 notices)
 
+Try locally:
 ```
+cp config{.example,}.yml
+# edit config.yml
 bundle exec rake report
 ```
 
 Heroku
 ======
-setup production in config/config.yml
+setup production section in config.yml
 ```
 heroku create xxx
 rake heroku:configure # copy config.yml into heroku ENV

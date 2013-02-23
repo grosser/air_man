@@ -11,7 +11,7 @@ describe AirMan::Reporter do
     let(:notices){ [Hashie::Mash.new] }
     let(:frequency){ 1000 }
     let(:store){ Store.new }
-    let(:config){ YAML.load_file(Bundler.root.join("config/config.yml")).fetch("test").merge(:store => store) }
+    let(:config){ YAML.load_file(Bundler.root.join("config.yml")).fetch("test").merge(:store => store) }
     let(:hot_response){ [[error, notices, frequency]] }
     let(:report){ AirMan::Reporter.new(config).report }
 
