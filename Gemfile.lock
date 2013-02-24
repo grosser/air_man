@@ -1,7 +1,14 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (3.2.12)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
     addressable (2.3.2)
+    airbrake (3.1.8)
+      activesupport
+      builder
+      json
     airbrake-api (4.2.2)
       faraday_middleware (~> 0.8)
       hashie
@@ -10,6 +17,7 @@ GEM
       parallel (~> 0.5.0)
     airbrake_tools (0.0.7)
       airbrake-api (>= 4.2.2)
+    builder (3.1.4)
     dalli (2.6.0)
     diff-lcs (1.1.3)
     excon (0.16.10)
@@ -26,10 +34,13 @@ GEM
       rubyzip
     heroku-api (0.3.7)
       excon (~> 0.16.10)
+    i18n (0.6.1)
+    json (1.7.7)
     launchy (2.1.2)
       addressable (~> 2.3)
     mash (0.1.1)
     mime-types (1.19)
+    multi_json (1.6.1)
     multi_xml (0.5.2)
     multipart-post (1.1.5)
     netrc (0.7.7)
@@ -51,6 +62,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   airbrake_tools
   dalli
   heroku

@@ -11,7 +11,9 @@ end
 
 desc "report"
 task :report do
-  AirMan::Reporter.new(AirMan.config).report
+  report_errors_to_airbrake do
+    AirMan::Reporter.new(AirMan.config).report
+  end
 end
 
 namespace :test do
@@ -36,5 +38,21 @@ namespace :heroku do
     config = Base64.encode64(File.read("config.yml")).gsub("\n","")
     sh "heroku config:add CONFIG_YML=#{config}"
     sh "heroku config:add RAILS_ENV=production"
+  end
+end
+
+def report_errors_to_airbrake
+  if !["test", "development"].include?(AirMan.env) and api_key = AirMan.config[:report_errors_to]
+    require "airbrake"
+    Airbrake.configure { |config| config.api_key = api_key }
+    begin
+      yield
+    rescue Exception => e
+      puts "reporting error to airbrake"
+      Airbrake.notify_or_ignore(e)
+      raise e
+    end
+  else
+    yield
   end
 end

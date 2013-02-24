@@ -4,7 +4,6 @@ module AirMan
 
   # configure self from env or config.yml
   def self.config
-    env = (ENV['RAILS_ENV'] || 'development')
     config = if encoded = ENV['CONFIG_YML']
       require 'base64'
       Base64.decode64(encoded)
@@ -12,5 +11,9 @@ module AirMan
       File.read('config.yml')
     end
     YAML.load(config)[env].freeze
+  end
+
+  def self.env
+    ENV['RAILS_ENV'] || 'development'
   end
 end
