@@ -17,7 +17,7 @@ module AirMan
           "from_address" => "Air@Man.error",
           "subject" => subject,
           "content" => summary,
-          #"tags" =>  []
+          "tags" =>  ["#airbrake"]
         }
         RestClient.post(URL + token, data, :content_type => :json)
       end
