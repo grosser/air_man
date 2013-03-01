@@ -67,4 +67,5 @@ DEPENDENCIES
   dalli
   heroku
   rake
+  rest-client
   rspec

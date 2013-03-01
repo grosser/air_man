@@ -1,4 +1,5 @@
 require "spec_helper"
+require "rest_client"
 
 describe AirMan::Reporter do
   class Store < Hash
@@ -32,6 +33,12 @@ describe AirMan::Reporter do
     it "sends out emails to cc's for new errors" do
       config[:ccs] = ["xxx@yyy.com"]
       AirMan::Mailer.any_instance.should_receive(:send_email).with(config[:emails].first, hash_including(:ccs => ["xxx@yyy.com"]))
+      report
+    end
+
+    it "sends out flowdock notification" do
+      config[:flowdock] = {:tokens => "abcd"}
+      RestClient.should_receive(:post).with("XXX", anything, anything)
       report
     end
 

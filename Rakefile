@@ -1,5 +1,6 @@
 require "yaml"
 require "base64"
+require "mash"
 
 $LOAD_PATH << "lib"
 require "air_man"
@@ -23,6 +24,12 @@ namespace :test do
     m.session do
       m.send :send_email, (ENV["TO"] || "test@example.com"), :subject => "test", :body => "test test"
     end
+  end
+
+  desc "test flowdock"
+  task :flowdock do
+    error = Mash.new(:created_at => Time.now, :error_class => "Test error", :error_message => "Test error message")
+    AirMan::Flowdock.new(AirMan.config[:flowdock]).notify(error, 111.123, "SUMMARY")
   end
 
   desc "test the memcache store"

@@ -10,6 +10,9 @@ development: &default
     :username: airman-notifier@yourcompany.com
     :password: your-password
   # :report_errors_to: airbrake-api-key # if any errors happen in airbrake, send them here
+  # :flowdock:
+  #   :tokens:
+  #     - 4580756672ac2bc4c05db3d967b202f0
 
 test:
   <<: *default

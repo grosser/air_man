@@ -1,6 +1,7 @@
 module AirMan
   autoload :Mailer, "air_man/mailer"
   autoload :Reporter, "air_man/reporter"
+  autoload :Flowdock, "air_man/flowdock"
 
   # configure self from env or config.yml
   def self.config

@@ -12,6 +12,7 @@ module AirMan
     end
 
     def report
+      flowdock = Flowdock.new(config[:flowdock]) if config[:flowdock]
       Mailer.new(config).session do |mailer|
         hot_errors.each do |error, notices, frequency|
           next if frequency < config.fetch(:frequency)
@@ -24,7 +25,10 @@ module AirMan
 
           assignee = random_assignee
           puts "Assigning #{error.id} to #{assignee}"
-          mailer.notify(assignee, config[:ccs], error, frequency, summary(error.id))
+          summary = summary(error.id)
+          mailer.notify(assignee, config[:ccs], error, frequency, summary)
+          flowdock.notify(error, frequency, summary)
+
           store.set(store_key, :assignee => assignee, :time => Time.now)
         end
       end
