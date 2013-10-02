@@ -1,4 +1,4 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem "airbrake_tools"
 gem "dalli"
