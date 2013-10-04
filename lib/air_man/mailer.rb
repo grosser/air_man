@@ -43,9 +43,10 @@ module AirMan
     def smtp
       raise unless @session
       @smtp ||= begin
-        smtp = Net::SMTP.new "smtp.gmail.com", 587
+        server = smtp_config[:server] || "smtp.gmail.com"
+        smtp = Net::SMTP.new server, 587
         smtp.enable_starttls
-        smtp.start("gmail.com", smtp_config.fetch(:username), smtp_config.fetch(:password), :login)
+        smtp.start(server, smtp_config.fetch(:username), smtp_config.fetch(:password), :login)
         smtp
       end
     end
