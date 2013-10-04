@@ -27,9 +27,10 @@ module AirMan
     private
 
     def send_email(to, options={})
+      from = smtp_config[:from] || smtp_config.fetch(:username)
       cc = (options[:ccs] ? "CC: #{options[:ccs].join(", ")}" : "")
       message = <<-MESSAGE.gsub(/^\s+/, "")
-        From: #{smtp_config.fetch(:from_alias, "AirMan")} <#{smtp_config.fetch(:username)}>
+        From: #{smtp_config[:from_alias] || "AirMan"} <#{from}>
         To: <#{to}>
         Subject: #{options.fetch(:subject)}
         #{cc}
@@ -37,16 +38,24 @@ module AirMan
         #{options.fetch(:body)}
       MESSAGE
 
-      smtp.send_message message, smtp_config.fetch(:username), to
+      smtp.send_message message, from, to
     end
 
     def smtp
       raise unless @session
       @smtp ||= begin
-        server = smtp_config[:server] || "smtp.gmail.com"
-        smtp = Net::SMTP.new server, 587
+        server = ENV["POSTMARK_SMTP_SERVER"] || smtp_config[:server] || "smtp.gmail.com"
+        api_key = ENV["POSTMARK_API_KEY"]
+        port = smtp_config[:port] || 25
+
+        smtp = Net::SMTP.new server, port
         smtp.enable_starttls
-        smtp.start(server, smtp_config.fetch(:username), smtp_config.fetch(:password), :login)
+        smtp.start(
+          server,
+          api_key || smtp_config.fetch(:username),
+          api_key || smtp_config.fetch(:password),
+          :login
+        )
         smtp
       end
     end

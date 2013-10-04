@@ -19,10 +19,11 @@ end
 
 namespace :test do
   desc "test email sending"
-  task :email do
+  task :email, [:to] do |t,args|
+    to = args[:to] || raise("give me the to")
     m = AirMan::Mailer.new(AirMan.config)
     m.session do
-      m.send :send_email, (ENV["TO"] || "test@example.com"), :subject => "test", :body => "test test"
+      m.send :send_email, to, :subject => "test for AirMan", :body => "test test\nmoretest\neven moree"
     end
   end
 

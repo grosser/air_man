@@ -6,10 +6,13 @@ development: &default
     - foo@yourcompany.com
   #:ccs: # emails to send as cc
   #  - stalker@yourcompany.com
-  :mailer: # smtp settings (sign up for free sendgrid.com account, gmail does not work reliably...)
-    :server: smtp.sendgrid.net
-    :username: USERNAME
-    :password: PASSWORD
+  :mailer:
+    :from: FROM-EMAIL # required for postmark aka sender signature
+  # for other pure smtp servers
+  #  :server: SMTP
+  #  :username: USERNAME
+  #  :password: PASSWORD
+  #  :port: PORT
   # :report_errors_to: airbrake-api-key # if any errors happen in airbrake, send them here
   # :flowdock:
   #   :tokens:

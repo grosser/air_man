@@ -35,13 +35,16 @@ Heroku
 setup production section in config.yml
 ```
 heroku create xxx
-rake heroku:configure # copy config.yml into heroku ENV
+heroku addons:add postmark:10k  # add free email sending
+heroku addons:open postmark     # add a signature and put it into config.yml mailer: from
+rake heroku:configure           # copy config.yml into heroku ENV
 git push heroku
 
 # make sure everything is set up correctly
 heroku run rake test:email test:store
 
 # send once by hand to verify it works
+heroku run bundle exec rake test:email[your-address@host.com]
 heroku run bundle exec rake report
 ```
 
@@ -57,11 +60,8 @@ Monitoring
  - Setup a [dead man switch](https://deadmanssnitch.com/r/e02191e260) so you know the cron is still running and then change the cron to: `bundle exec rake report && curl https://nosnch.in/xxxxx`
  - Setup a airbrake project to monitor errors in air_man and add `:report_errors_to:` to config.yml
 
-TODO
-====
- - using oauth instad of passwords could be interesting [gmail oauth lib](https://github.com/nfo/gmail_xoauth)
-
 Author
 ======
+[Michael Grosser](http://grosser.it)
 michael@grosser.it<br/>
 License: MIT
