@@ -37,7 +37,7 @@ setup production section in config.yml
 heroku create xxx
 heroku addons:add postmark:10k  # add free email sending
 heroku addons:open postmark     # add a signature and put it into config.yml mailer: from
-rake heroku:configure           # copy config.yml into heroku ENV
+rake heroku:configure           # copies config.yml into heroku ENV
 git push heroku
 
 # make sure everything is set up correctly
