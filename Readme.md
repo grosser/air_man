@@ -50,6 +50,7 @@ heroku run bundle exec rake report
 
 ### configure scheduler
 ```
+heroku addons:add scheduler
 heroku addons:open scheduler
 ```
 
