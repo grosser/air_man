@@ -1,6 +1,7 @@
+require "bundler/setup"
 require "yaml"
 require "base64"
-require "mash"
+require "hashie/mash"
 
 $LOAD_PATH << "lib"
 require "air_man"
