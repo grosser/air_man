@@ -43,7 +43,7 @@ namespace :test do
 
   desc "test found error"
   task :errors do
-    puts AirMan::Reporter.new(AirMan.config).send(:hot_errors).map { |e,_,f| [e, f] }
+    puts AirMan::Reporter.new(AirMan.config).send(:hot_errors).map { |e,_,f| "#{f}/h: #{e}" }
   end
 end
 

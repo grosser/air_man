@@ -44,8 +44,13 @@ module AirMan
     def smtp
       raise unless @session
       @smtp ||= begin
-        server = ENV["POSTMARK_SMTP_SERVER"] || smtp_config[:server] || "smtp.gmail.com"
-        api_key = ENV["POSTMARK_API_KEY"]
+        if ENV["POSTMARK_API_KEY"]
+          server = ENV.fetch("POSTMARK_SMTP_SERVER")
+          api_key = ENV["POSTMARK_API_KEY"]
+        else
+          server = smtp_config[:server] || "smtp.gmail.com"
+        end
+
         port = smtp_config[:port] || 25
 
         smtp = Net::SMTP.new server, port

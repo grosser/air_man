@@ -12,7 +12,6 @@ module AirMan
     end
 
     def report
-      flowdock = Flowdock.new(config[:flowdock]) if config[:flowdock]
       Mailer.new(config).session do |mailer|
         hot_errors.each do |error, _, frequency|
           store_key = "air_man.errors.#{error.id}"
@@ -25,7 +24,7 @@ module AirMan
           puts "Assigning #{error.id} to #{assignee}"
           summary = summary(error.id)
           mailer.notify(assignee, config[:ccs], error, frequency, summary)
-          flowdock.notify(error, frequency, summary)
+          notify_external_services(error, frequency, summary)
 
           store.set(store_key, :assignee => assignee, :time => Time.now)
         end
@@ -33,6 +32,13 @@ module AirMan
     end
 
     private
+
+    def notify_external_services(error, frequency, summary)
+      if config[:flowdock]
+        @flowdock ||= Flowdock.new(config[:flowdock])
+        @flowdock.notify(error, frequency, summary)
+      end
+    end
 
     def summary(id)
       record_stdout{ AirbrakeTools.summary(id, {}) }
@@ -67,9 +73,11 @@ module AirMan
       AirbrakeAPI.account = config.fetch(:subdomain)
       AirbrakeAPI.auth_token = config.fetch(:auth_token)
       AirbrakeAPI.secure = true
-      AirbrakeAPI.projects.flat_map do |project|
-        AirbrakeTools.hot(:env => "production", :pages => 1, :project_id => project.id)
+      errors = (config[:project_ids] || [nil]).flat_map do |project_id|
+        AirbrakeTools.hot(env: "production", pages: 1, project_id: project_id)
       end.select { |_, _, frequency| frequency >= config.fetch(:frequency) }
+      puts # errors prints without a newline
+      errors
     end
   end
 end

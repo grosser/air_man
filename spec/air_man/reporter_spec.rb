@@ -23,6 +23,7 @@ describe AirMan::Reporter do
       AirMan::Mailer # load Net::SMTP
       Net::SMTP.any_instance.stub(:do_start) # do not start sessions
       Net::SMTP.any_instance.stub(:send_message) # do not try to send emails
+      ENV["POSTMARK_API_KEY"] = "some-key"
     end
 
     it "sends out emails for new errors" do
@@ -37,8 +38,8 @@ describe AirMan::Reporter do
     end
 
     it "sends out flowdock notification" do
-      config[:flowdock] = {:tokens => "abcd"}
-      RestClient.should_receive(:post).with("XXX", anything, anything)
+      config[:flowdock] = {:tokens => ["abcd"]}
+      RestClient.should_receive(:post).with("https://api.flowdock.com/v1/messages/team_inbox/abcd", anything, anything)
       report
     end
 

@@ -2,6 +2,8 @@ development: &default
   :frequency: 100 # notify if errors/hour is greater than this
   :subdomain: your-company # airbrake subdomain
   :auth_token: muahahahaha # airbrake auth token from user page (NOT API KEY!)
+  # :project_ids:
+  #  - 1122121 # id of the project that should be monitored
   :emails: # emails to assign errors to
     - foo@yourcompany.com
   #:ccs: # emails to send as cc
