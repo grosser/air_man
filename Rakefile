@@ -40,6 +40,11 @@ namespace :test do
     store.set "xxx", :SUCCESS
     raise unless store.get("xxx") == :SUCCESS
   end
+
+  desc "test found error"
+  task :errors do
+    puts AirMan::Reporter.new(AirMan.config).send(:hot_errors).map { |e,_,f| [e, f] }
+  end
 end
 
 namespace :heroku do

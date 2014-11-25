@@ -14,9 +14,7 @@ module AirMan
     def report
       flowdock = Flowdock.new(config[:flowdock]) if config[:flowdock]
       Mailer.new(config).session do |mailer|
-        hot_errors.each do |error, notices, frequency|
-          next if frequency < config.fetch(:frequency)
-
+        hot_errors.each do |error, _, frequency|
           store_key = "air_man.errors.#{error.id}"
           if store.get(store_key)
             puts "#{error.id} already assigned"
@@ -69,7 +67,9 @@ module AirMan
       AirbrakeAPI.account = config.fetch(:subdomain)
       AirbrakeAPI.auth_token = config.fetch(:auth_token)
       AirbrakeAPI.secure = true
-      AirbrakeTools.hot(:env => "production", :pages => 1)
+      AirbrakeAPI.projects.flat_map do |project|
+        AirbrakeTools.hot(:env => "production", :pages => 1, :project_id => project.id)
+      end.select { |_, _, frequency| frequency >= config.fetch(:frequency) }
     end
   end
 end
