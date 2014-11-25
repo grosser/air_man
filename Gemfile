@@ -11,4 +11,3 @@ gem "hashie"
 # development
 gem "rake"
 gem "rspec"
-gem "heroku"
