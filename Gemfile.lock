@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/grosser/airbrake_tools.git
-  revision: c1f49251e0fa1361295ed6d0de4b3bb55748c869
-  ref: grosser/iterate
+  revision: 895f64a78843fdf33a2711ac98c5eca9c8a0e0f3
+  ref: grosser/launchy
   specs:
     airbrake_tools (1.1.3)
       airbrake-api (>= 4.5.1)
