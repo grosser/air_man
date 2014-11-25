@@ -50,8 +50,10 @@ end
 namespace :heroku do
   task :configure do
     config = Base64.encode64(File.read("config.yml")).gsub("\n","")
-    sh "heroku config:add CONFIG_YML=#{config}"
-    sh "heroku config:add RAILS_ENV=production"
+    Bundler.with_clean_env do
+      sh "heroku config:add CONFIG_YML=#{config}"
+      sh "heroku config:add RAILS_ENV=production"
+    end
   end
 end
 
